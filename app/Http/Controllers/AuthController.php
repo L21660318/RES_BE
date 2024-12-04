@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB; // Usar DB para consultas directas
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -17,42 +17,50 @@ class AuthController extends Controller
     // Procesar el login
     public function login(Request $request)
     {
-        // Validación de los datos recibidos
+        // Validar los datos recibidos
         $credentials = $request->validate([
-            'email' => 'required|email', // Asegurarse de que el email sea válido
-            'password' => 'required',    // Asegurarse de que la contraseña esté presente
+            'email' => 'required|email', // Validar que el email sea válido
+            'password' => 'required',    // Validar que la contraseña esté presente
         ]);
 
-        // Buscar el usuario en la base de datos por el correo electrónico (en la tabla 'usuarios')
+        // Buscar al usuario en la base de datos
         $user = DB::table('usuarios')->where('email', $credentials['email'])->first();
 
-        // Depuración: Verificar si el usuario fue encontrado
+        // Verificar si el usuario fue encontrado
         if (!$user) {
             return back()->withErrors([
                 'email' => 'No se encontró un usuario con este correo electrónico.',
             ])->onlyInput('email');
         }
 
-        // Depuración: Verificar si las contraseñas coinciden
+        // Comparar contraseñas en texto plano
         if ($user->password !== $credentials['password']) {
             return back()->withErrors([
                 'password' => 'La contraseña es incorrecta.',
             ]);
         }
 
-        // Si las credenciales son correctas, iniciar sesión
-        Auth::loginUsingId($user->id); // Usar ID del usuario para iniciar sesión
-        $request->session()->regenerate(); // Regenerar la sesión para prevenir ataques de fijación de sesión
-        return redirect()->intended('/alumno'); // Redirigir a la página deseada
+        // Iniciar sesión
+        Auth::loginUsingId($user->id);
+        $request->session()->regenerate(); // Regenerar la sesión por seguridad
+
+        // Redirigir basado en el role_id
+        if ($user->role_id == 2) {
+            return redirect()->route('alumno');
+        }
+
+        return back()->withErrors([
+            'error' => 'No tienes permisos para acceder al sistema.',
+        ]);
     }
 
     // Procesar el logout
     public function logout(Request $request)
     {
-        Auth::logout(); // Cerrar sesión
-        $request->session()->invalidate(); // Invalidar la sesión
-        $request->session()->regenerateToken(); // Regenerar el token CSRF
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        return redirect('/login'); // Redirigir a la página de login
+        return redirect('/'); // Redirigir a la página de login
     }
 }

@@ -1,205 +1,170 @@
 /* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a26, #0e0e18);
+            color: #d6d6d6;
+            margin: 0;
+        }
 
-  body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #1a1a26, #0e0e18);
-    color: #d6d6d6;
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-  }
+        /* Sidebar */
+        .sidebar {
+            background: #212131;
+            color: #d6d6d6;
+            min-height: 100vh;
+            width: 250px;
+            position: fixed;
+            padding: 20px;
+        }
 
-  /* Container */
-  .container {
-    display: flex;
-    width: 100%;
-  }
+        .sidebar .logo-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
 
-  /* Sidebar */
-  .sidebar {
-    width: 25%;
-    background: #212131;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    border-right: 2px solid #333;
-    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
-  }
+        .sidebar .logo-container img {
+            height: 40px;
+            margin-right: 10px;
+        }
 
-  .sidebar .logo {
-    font-size: 26px;
-    font-weight: bold;
-    color: #a54242;
-    margin-bottom: 40px;
-    letter-spacing: 2px;
-  }
+        .sidebar .logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #a54242;
+        }
 
-  .sidebar .menu {
-    width: 100%;
-  }
+        .sidebar .nav-link {
+            color: #d6d6d6;
+            font-weight: bold;
+            font-size: 16px;
+            margin: 10px 0;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            position: relative;
+            transition: all 0.3s ease;
+        }
 
-  .sidebar .menu a {
-    text-decoration: none;
-    color: #d6d6d6;
-    margin: 10px 0;
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.05);
-    font-weight: bold;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    font-size: 16px;
-  }
+        .sidebar .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: #ff4040;
+            transition: width 0.3s ease;
+        }
 
-  .sidebar .menu a i {
-    margin-right: 15px;
-    font-size: 18px;
-  }
+        .sidebar .nav-link:hover:after {
+            width: 100%;
+        }
 
-  .sidebar .menu a:hover {
-    background: #333;
-    color: #fff;
-    transform: scale(1.05);
-  }
+        .sidebar .nav-link:hover {
+            color: #fff;
+        }
 
-  /* Main Content */
-  .main-content {
-    flex-grow: 1;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    background: url('https://sic.cultura.gob.mx/images/119479') no-repeat center;
-    background-size: cover;
-    position: relative;
-    overflow-y: auto;
-  }
+        .sidebar .nav-link i {
+            margin-right: 15px;
+        }
 
-  .main-content:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 0;
-  }
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+            background: url('https://sic.cultura.gob.mx/images/119479') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            min-height: 100vh;
+        }
 
-  .main-content .header {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-  }
+        .main-content:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 0;
+        }
 
-  .main-content .header h1 {
-    font-size: 36px;
-    color: #a0d9ff;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-  }
+        .main-content .header {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
 
-  .main-content .header input {
-    padding: 12px;
-    width: 300px;
-    border: none;
-    border-radius: 4px;
-    background: #2b2b38;
-    color: #d6d6d6;
-    font-size: 14px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-  }
+        .main-content .header h1 {
+            font-size: 36px;
+            color: #a0d9ff;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
 
-  /* Projects Section */
-  .projects {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-  }
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
 
-  /* Card Styles */
-  .card {
-    max-width: 300px;
-    border-radius: 0.5rem;
-    background-color: rgba(255, 255, 255, 0.15); /* Translúcida */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px); /* Para compatibilidad */
-    transition: transform 0.3s ease;
-  }
+        .card {
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(8px);
+            transition: transform 0.3s ease;
+        }
 
-  .card:hover {
-    transform: scale(1.05);
-  }
+        .card:hover {
+            transform: scale(1.05);
+        }
 
-  .card .image {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    background-color: rgb(239, 205, 255);
-    background-size: cover;
-    background-position: center;
-  }
+        .card .image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            background-color: #eee;
+            background-size: cover;
+            background-position: center;
+        }
 
-  .card .content {
-    padding: 1.1rem;
-    display: flex;
-    flex-direction: column;
-  }
+        .card .content {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
 
-  .card .title {
-    color: #ffffff;
-    font-size: 1.125rem;
-    line-height: 1.75rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
+        .card .title {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
 
-  .card .desc {
-    color: #d6d6d6;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    margin-bottom: 1rem;
-  }
+        .card .desc {
+            color: #d6d6d6;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
 
-  .card .action {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    background-color: #2563EB;
-    color: #fff;
-    font-size: 0.875rem;
-    font-weight: 500;
-    padding: 4px 8px;
-    border-radius: 4px;
-    text-decoration: none;
-    align-self: flex-start;
-    transition: background 0.3s ease;
-  }
+        .card .action {
+            align-self: flex-start;
+            padding: 8px 12px;
+            border-radius: 4px;
+            background: #2563eb;
+            color: #fff;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
 
-  .card .action:hover {
-    background-color: #1d4ed8;
-  }
-
-  .card .action span {
-    transition: transform 0.3s ease;
-  }
-
-  .card .action:hover span {
-    transform: translateX(4px);
-  }
+        .card .action:hover {
+            background: #1d4ed8;
+        }
