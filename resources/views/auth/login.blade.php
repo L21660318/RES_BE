@@ -9,8 +9,12 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #0d47a1;
-            color: white;
+            background-color: #0d47a1; /* Fondo azul */
+            background-image: url('https://th.bing.com/th/id/R.418aad279098b8cee2a075ed29b48011?rik=q23X1HjmoWFcgQ&riu=http%3a%2f%2fwww.veracruz.tecnm.mx%2ftemplates%2frt_manticore%2fcustom%2fimages%2fImagenes%2fA2020%2fwebmay2020%2fwhite+eagle.png&ehk=X%2bhUhCScz6ur03iD%2fn1TgEYVXjltC%2blyuan6qdGnJr4%3d&risl=&pid=ImgRaw&r=0'); /* Imagen */
+            background-repeat: no-repeat; /* No repetir la imagen */
+            background-position: top left; /* Posiciona la imagen en la parte superior */
+            background-size: 260px; /* Ajusta el tamaño de la imagen */
+            color: grey;
             margin: 0;
             padding: 0;
         }
@@ -18,6 +22,8 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .main-section {
@@ -31,11 +37,14 @@
         .left-section {
             width: 50%;
             color: white;
+            margin-top: -300px;
+            padding-left: 180px;
         }
 
         .left-section h1 {
             font-size: 2.5rem;
             font-weight: bold;
+            margin-bottom: 50px;
         }
 
         .left-section p {
@@ -44,7 +53,7 @@
         }
 
         .right-section {
-            background-color: white;
+            background-color: #D1D1D1;
             padding: 30px;
             border-radius: 10px;
             width: 400px;
@@ -78,9 +87,21 @@
         .extra-links a:hover {
             text-decoration: underline;
         }
+
+        .bottom-rectangle {
+            position: absolute; 
+            bottom: 0; 
+            left: 0;
+            width: 100%; 
+            height: 300px;
+            background-color: white; 
+            z-index: 0;
+
+        }
     </style>
 </head>
 <body>
+    <div class="bottom-rectangle"></div>
     <div class="container">
         <div class="main-section">
             <!-- Sección izquierda -->
