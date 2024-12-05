@@ -7,131 +7,63 @@
     <title>Panel del Alumno</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
-        /* General Reset */
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1a1a26, #0e0e18);
-            color: #d6d6d6;
+            background-color: #f9f9f9;
             margin: 0;
+            padding: 0;
         }
 
         /* Sidebar */
         .sidebar {
-            background: #212131;
-            color: #d6d6d6;
+            background-color: #003B73;
+            color: white;
             min-height: 100vh;
             width: 250px;
             position: fixed;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            color: white;
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .sidebar a:hover {
+            background-color: #0056A1;
+        }
+
+        /* Main content */
+        .main-content {
+            margin-left: 250px;
             padding: 20px;
         }
 
-        .sidebar .logo-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .sidebar .logo-container img {
-            height: 40px;
-            margin-right: 10px;
-        }
-
-        .sidebar .logo {
-            font-size: 26px;
+        .header h1 {
+            text-align: center;
+            color: #003B73;
+            font-size: 28px;
             font-weight: bold;
-            color: #a54242;
+            margin-bottom: 20px;
         }
 
-        .sidebar .nav-link {
-            color: #d6d6d6;
-            font-weight: bold;
-            font-size: 16px;
-            margin: 10px 0;
-            padding: 12px 20px;
-            text-decoration: none;
-            display: block;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar .nav-link:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0%;
-            height: 2px;
-            background: #ff4040;
-            transition: width 0.3s ease;
-        }
-
-        .sidebar .nav-link:hover:after {
-            width: 100%;
-        }
-
-        .sidebar .nav-link:hover {
-            color: #fff;
-        }
-
-        .sidebar .nav-link i {
-            margin-right: 15px;
-        }
-
-        /* Main Content */
-        .main-content {
-            margin-left: 250px;
-            padding: 40px;
-            background: url('https://sic.cultura.gob.mx/images/119479') no-repeat center center fixed;
-            background-size: cover;
-            position: relative;
-            min-height: 100vh;
-        }
-
-        .main-content:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 0;
-        }
-
-        .main-content .header {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .main-content .header h1 {
-            font-size: 36px;
-            color: #a0d9ff;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-        }
-
+        /* Projects Grid */
         .projects {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
-            position: relative;
-            z-index: 1;
         }
 
         .card {
+            background-color: white;
             border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            backdrop-filter: blur(8px);
             transition: transform 0.3s ease;
         }
 
@@ -142,75 +74,89 @@
         .card .image {
             width: 100%;
             height: 150px;
-            object-fit: cover;
-            background-color: #eee;
             background-size: cover;
             background-position: center;
         }
 
         .card .content {
             padding: 16px;
-            display: flex;
-            flex-direction: column;
         }
 
         .card .title {
-            color: #ffffff;
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 8px;
+            color: #003B73;
         }
 
         .card .desc {
-            color: #d6d6d6;
             font-size: 14px;
+            color: #666;
             margin-bottom: 12px;
         }
 
         .card .action {
-            align-self: flex-start;
-            padding: 8px 12px;
-            border-radius: 4px;
-            background: #2563eb;
-            color: #fff;
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #003B73;
+            color: white;
             text-decoration: none;
+            border-radius: 4px;
             transition: background 0.3s ease;
         }
 
         .card .action:hover {
-            background: #1d4ed8;
+            background-color: #0056A1;
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #FF4C4C;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background-color: #E04343;
         }
     </style>
 </head>
 
 <body>
+    <!-- Sidebar -->
     <div class="sidebar">
-        <div class="logo-container">
-            <img src="https://es.uni24k.com/media/logos/logo_school_ubf6e84cc_13283000.png" alt="Logo">
-            <div class="logo">SEPRENET</div>
-        </div>
-        <a class="nav-link" href="#"><i class="fas fa-home"></i> Inicio</a>
-        <a class="nav-link" href="#"><i class="fas fa-project-diagram"></i> Mis Proyectos</a>
-        <a class="nav-link" href="#"><i class="fas fa-bell"></i> Notificaciones</a>
-        <a class="nav-link" href="#"><i class="fas fa-file-alt"></i> Documentos</a>
-        <a class="nav-link" href="#"><i class="fas fa-user-circle"></i> Mi Cuenta</a>
+        <a href="#">Inicio</a>
+        <a href="#">Mi Proyecto</a>
+        <a href="#">Documentos</a>
+        <a href="#">Notificaciones</a>
+        <a href="#">Mi Cuenta</a>
     </div>
+
+    <!-- Main Content -->
     <div class="main-content">
+        <button class="logout-btn">Cerrar Sesión</button>
         <div class="header">
             <h1>Bienvenido, Alumno</h1>
         </div>
-            <div class="projects">
-                @foreach($proyectos as $proyecto)
-                <div class="card">
-                    <div class="image" style="background-image: url('{{ $proyecto->imagen }}');"></div>
-                    <div class="content">
-                        <span class="title">{{ $proyecto->nombre }}</span>
-                        <p class="desc">{{ $proyecto->descripcion }}</p>
-                        <a class="action" href="#">Ver más</a>
-                    </div>
+        <div class="projects">
+            <!-- Dynamic Projects Section -->
+            @foreach($proyectos as $proyecto)
+            <div class="card">
+                <div class="image" style="background-image: url('{{ $proyecto->imagen }}');"></div>
+                <div class="content">
+                    <span class="title">{{ $proyecto->nombre }}</span>
+                    <p class="desc">{{ $proyecto->descripcion }}</p>
+                    <a class="action" href="#">Ver más</a>
                 </div>
-                @endforeach
             </div>
+            @endforeach
         </div>
     </div>
 </body>
