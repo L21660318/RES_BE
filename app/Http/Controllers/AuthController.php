@@ -43,7 +43,7 @@ class AuthController extends Controller
         // Si las credenciales son correctas, iniciar sesión
         Auth::loginUsingId($user->id); // Usar ID del usuario para iniciar sesión
         $request->session()->regenerate(); // Regenerar la sesión para prevenir ataques de fijación de sesión
-        return redirect()->intended('/alumno'); // Redirigir a la página deseada
+        return redirect()->intended('/dashboard'); // Redirigir a la página deseada
     }
 
     // Procesar el logout

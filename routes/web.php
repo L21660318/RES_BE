@@ -1,6 +1,9 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController; // Controlador para el dashboard
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\UsuarioController;
 
 // Rutas de autenticación
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
