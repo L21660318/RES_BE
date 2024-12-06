@@ -229,16 +229,15 @@
         <div class="profile-section">
             <!-- Imagen de perfil (inicial) -->
             <div class="profile-image">
-                <!-- Inicial del usuario autenticado -->
                 <span>{{ strtoupper(substr(Auth::user()->nombre, 0, 1)) }}</span>
             </div>
-            <!-- Nombre del usuario autenticado -->
             <div class="profile-name">{{ Auth::user()->nombre }}</div>
-            <!-- Email del usuario autenticado -->
             <div class="profile-email">{{ Auth::user()->email }}</div>
 
             <!-- Botones de acciones -->
-            <a href="#" class="btn btn-primary">Modificar Contraseña</a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                Modificar Contraseña
+            </button>
             <a href="#" class="btn btn-secondary">Editar Perfil</a>
             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                 @csrf
@@ -246,6 +245,61 @@
             </form>
         </div>
     </main>
+
+    <!-- Modal para modificar contraseña -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changePasswordModalLabel">Modificar Contraseña</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Mensajes de éxito y error -->
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    @if($errors->any())
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <ul class="mb-0">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+
+                    <!-- Formulario de cambio de contraseña -->
+
+                    <form id="changePasswordForm" method="POST" action="{{ route('changePassword') }}">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="oldPassword" class="form-label">Contraseña antigua</label>
+                            <input type="password" class="form-control" id="oldPassword" name="old_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">Contraseña nueva</label>
+                            <input type="password" class="form-control" id="newPassword" name="new_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirma contraseña</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="new_password_confirmation" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar Contraseña</button>
+                    </form>
+             
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 
     <!-- Bootstrap JS -->

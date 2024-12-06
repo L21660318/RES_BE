@@ -5,6 +5,8 @@ use App\Http\Controllers\DashboardController; // Controlador para el dashboard
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
+
 
 
 // Rutas de autenticación
@@ -44,4 +46,7 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->middleware('auth');
+
+
+Route::post('/change-password', [UserController::class, 'changePassword'])->name('changePassword');
 
