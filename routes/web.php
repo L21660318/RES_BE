@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController; // Controlador para el dashboard
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\ProfileController;
+
 
 // Rutas de autenticación
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -39,4 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/pagina1', [DashboardController::class, 'pagina1'])->name('dashboard.pagina1');
     Route::get('/dashboard/pagina2', [DashboardController::class, 'pagina2'])->name('dashboard.pagina2');
 });
+
+
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->middleware('auth');
 
