@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController; // Controlador para el dashboard
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\MaestroController;
+
 
 // Rutas de autenticación
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -40,3 +42,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/pagina2', [DashboardController::class, 'pagina2'])->name('dashboard.pagina2');
 });
 
+
+Route::middleware('auth')->group(function () {
+    // Ruta para la página principal de Maestro
+    Route::get('/maestro', [MaestroController::class, 'index'])->name('maestro');
+});
+
+use App\Http\Controllers\ProyectoController;
+
+Route::prefix('alumno')->middleware('auth')->name('alumno.')->group(function () {
+    Route::get('/proyectos', [ProyectoController::class, 'index'])->name('proyecto.index');
+    Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyecto.store');
+});

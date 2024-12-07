@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB; // Usar DB para consultas directas
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -26,24 +26,41 @@ class AuthController extends Controller
         // Buscar el usuario en la base de datos por el correo electrónico (en la tabla 'usuarios')
         $user = DB::table('usuarios')->where('email', $credentials['email'])->first();
 
-        // Depuración: Verificar si el usuario fue encontrado
+        // Verificar si el usuario fue encontrado
         if (!$user) {
             return back()->withErrors([
                 'email' => 'No se encontró un usuario con este correo electrónico.',
             ])->onlyInput('email');
         }
 
-        // Depuración: Verificar si las contraseñas coinciden
+        // Verificar si las contraseñas coinciden
         if ($user->password !== $credentials['password']) {
             return back()->withErrors([
                 'password' => 'La contraseña es incorrecta.',
             ]);
         }
 
-        // Si las credenciales son correctas, iniciar sesión
-        Auth::loginUsingId($user->id); // Usar ID del usuario para iniciar sesión
-        $request->session()->regenerate(); // Regenerar la sesión para prevenir ataques de fijación de sesión
-        return redirect()->intended('/dashboard'); // Redirigir a la página deseada
+        // Iniciar sesión
+        Auth::loginUsingId($user->id);
+        $request->session()->regenerate();
+
+        // Redirigir según el role_id del usuario
+        switch ($user->role_id) {
+            case 1:
+                return redirect('/maestro');
+            case 2:
+                return redirect('/dashboard');
+            case 3:
+                return redirect('/pagina-role-3');
+            case 4:
+                return redirect('/pagina-role-4');
+            case 5:
+                return redirect('/pagina-role-5');
+            case 6:
+                return redirect('/pagina-role-6');
+            default:
+                return redirect('/default-page'); // Redirigir a una página por defecto si no coincide
+        }
     }
 
     // Procesar el logout
