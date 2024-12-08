@@ -50,7 +50,10 @@ Route::middleware('auth')->group(function () {
 
 use App\Http\Controllers\ProyectoController;
 
-Route::prefix('alumno')->middleware('auth')->name('alumno.')->group(function () {
-    Route::get('/proyectos', [ProyectoController::class, 'index'])->name('proyecto.index');
-    Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyecto.store');
+// Rutas para los alumnos
+Route::middleware(['auth'])->group(function () {
+    Route::get('/proyectos', [ProyectoController::class, 'index'])->name('proyectos.index'); // Listar proyectos
+    Route::get('/proyectos/create', [ProyectoController::class, 'create'])->name('proyectos.create'); // Crear proyecto
+    Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store'); // Guardar proyecto
+    Route::get('/proyectos/{id}', [ProyectoController::class, 'show'])->name('proyectos.show'); // Ver proyecto
 });

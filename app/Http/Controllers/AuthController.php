@@ -51,7 +51,7 @@ class AuthController extends Controller
             case 2:
                 return redirect('/dashboard');
             case 3:
-                return redirect('/pagina-role-3');
+                return redirect('/proyectos');
             case 4:
                 return redirect('/pagina-role-4');
             case 5:

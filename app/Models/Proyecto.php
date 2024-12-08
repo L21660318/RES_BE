@@ -9,11 +9,12 @@ class Proyecto extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'descripcion', 'archivo_pdf', 'usuario_id'];
+    protected $fillable = [
+        'nombre', 'descripcion', 'imagen', 'usuario_id', 'archivo_pdf'
+    ];
 
-    // Relación con el modelo Usuario
     public function usuario()
     {
-        return $this->belongsTo(User::class, 'usuario_id');
+        return $this->belongsTo(User::class);
     }
 }
