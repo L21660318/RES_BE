@@ -8,9 +8,16 @@ use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\DashboardController; // Controlador para el dashboard
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UsuarioController;
+<<<<<<< HEAD
 use App\Http\Controllers\MaestroController;
 
 >>>>>>> paginas-Diego
+=======
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
+
+
+>>>>>>> usuario
 
 // Rutas de autenticación
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -51,6 +58,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
+<<<<<<< HEAD
 Route::middleware('auth')->group(function () {
     // Ruta para la página principal de Maestro
     Route::get('/maestro', [MaestroController::class, 'index'])->name('maestro');
@@ -66,3 +74,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/proyectos/{id}', [ProyectoController::class, 'show'])->name('proyectos.show'); // Ver proyecto
 });
 >>>>>>> paginas-Diego
+=======
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->middleware('auth');
+
+
+Route::post('/change-password', [UserController::class, 'changePassword'])->name('changePassword');
+
+>>>>>>> usuario

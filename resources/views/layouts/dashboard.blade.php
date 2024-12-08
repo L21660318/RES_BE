@@ -46,7 +46,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
-            background-color: #0d47a1; /* Azul oscuro */
+            background-color: transparent; /* Eliminar la barra blanca, haciéndola transparente */
             padding: 15px;
             border-radius: 8px;
         }
@@ -66,6 +66,26 @@
             color: #333;
             font-size: 14px;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Botón menú lateral más grande */
+        .btn-menu {
+            font-size: 24px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.7); /* Fondo transparente */
+            color: #0d47a1;
+            border: none;
+            border-radius: 30%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: absolute; /* Posicionar por encima del fondo */
+            top: 20px; /* Ajusta la posición del botón */
+            left: 20px; /* Ajusta la posición del botón */
+            z-index: 10; /* Asegura que el botón quede por encima del contenido */
+        }
+
+        .btn-menu:hover {
+            background-color: #0d47a1;
+            color: #ffffff;
         }
 
         /* Ajustar el menú offcanvas */
@@ -157,29 +177,17 @@
             color: #666;
             font-size: 14px;
         }
-
-        /* Botón menú lateral más grande */
-        .btn-menu {
-            font-size: 30px;
-            padding: 20px;
-            background-color: #ffffff;
-            color: #0d47a1;
-            border: none;
-            border-radius: 50%;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-menu:hover {
-            background-color: #0d47a1;
-            color: #ffffff;
-        }
     </style>
 </head>
 <body>
     <!-- Botón para abrir el menú lateral (icono grande) -->
     <button class="btn btn-menu m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
-        <i class="fas fa-bars"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
+            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
+        </svg>
     </button>
+
 
     <!-- Menú lateral (Offcanvas) -->
     <div class="offcanvas offcanvas-start" id="offcanvasMenu" tabindex="-1" aria-labelledby="offcanvasLabel">
@@ -189,9 +197,8 @@
         </div>
         <ul class="nav flex-column px-3">
             <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="fas fa-home"></i> Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina1') }}"><i class="fas fa-project-diagram"></i> Proyectos</a></li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-bell"></i> Notificaciones</a></li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-file-alt"></i> Documentos</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina1') }}"><i class="fas fa-project-diagram"></i> Segimiento</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina2') }}"><i class="fas fa-file-alt"></i> Documentos</a></li>
             <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-user-circle"></i> Mi Cuenta</a></li>
             <li class="nav-item">
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
