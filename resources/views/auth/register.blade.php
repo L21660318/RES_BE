@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
+    <title>Crear Cuenta</title>
     <!-- Importar Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -89,14 +89,13 @@
         }
 
         .bottom-rectangle {
-            position: absolute; 
-            bottom: 0; 
+            position: absolute;
+            bottom: 0;
             left: 0;
-            width: 100%; 
+            width: 100%;
             height: 300px;
-            background-color: white; 
+            background-color: white;
             z-index: 0;
-
         }
     </style>
 </head>
@@ -106,32 +105,39 @@
         <div class="main-section">
             <!-- Sección izquierda -->
             <div class="left-section">
-                <h1>BIENVENIDO A RESIDENCIAS ITMH</h1>
+                <h1>CREAR CUENTA</h1>
                 <p>
                     Solo para estudiantes del Instituto Tecnológico de Matehuala. <br>
-                    Conéctate con oportunidades de residencias profesionales, registra tu proyecto 
-                    y haz el seguimiento desde un solo lugar.
+                    Crea tu cuenta para acceder a las oportunidades de residencias profesionales, registrar tu proyecto y dar seguimiento a tus actividades.
                 </p>
             </div>
 
-            <!-- Formulario de inicio de sesión -->
+            <!-- Formulario de registro -->
             <div class="right-section">
-                <h2 class="text-center mb-4">¡Inicia Sesión!</h2>
-                <form action="/login" method="POST">
+                <h2 class="text-center mb-4">Crear Cuenta</h2>
+                <form action="{{ route('register.store') }}" method="POST">
                     @csrf
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Correo Electrónico</label>
-                        <input type="email" name="email" id="email" class="form-control" required placeholder="Ingresa tu correo electrónico">
+                    <div class="form-group mb-3">
+                        <label for="name">Nombre:</label>
+                        <input type="text" name="name" id="name" class="form-control" placeholder="Escribe tu nombre" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" name="password" id="password" class="form-control" required placeholder="Contraseña">
+                    <div class="form-group mb-3">
+                        <label for="number">Número de Identificación:</label>
+                        <input type="text" name="number" id="number" class="form-control" placeholder="Ingresa tu número de control" maxlength="8" pattern="\d{8}" required>
+                        <small class="form-text text-muted">Tu correo será generado automáticamente: Lxxxxx@matehuala.tecnm.mx</small>
                     </div>
-                    <button type="submit" class="btn btn-primary">Inicia Sesión</button>
+                    <div class="form-group mb-3">
+                        <label for="password">Contraseña:</label>
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Contraseña" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="password_confirmation">Confirmar Contraseña:</label>
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="Repite tu contraseña" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Registrar</button>
                 </form>
-                <div class="extra-links mt-3">
-                    <a href="#">¿Olvidaste tu contraseña?</a> <br>
-                    <a href="/register">No tienes cuenta? Regístrate</a>
+                <div class="d-grid mt-3">
+                    <a href="{{ route('login') }}" class="btn btn-secondary">Inicia sesión aquí</a>
                 </div>
             </div>
         </div>

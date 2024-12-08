@@ -33,7 +33,11 @@ class AuthController extends Controller
             ])->onlyInput('email');
         }
 
+<<<<<<< HEAD
         // Comparar contraseñas en texto plano
+=======
+        // Verificar si las contraseñas coinciden
+>>>>>>> paginas-Diego
         if ($user->password !== $credentials['password']) {
             return back()->withErrors([
                 'password' => 'La contraseña es incorrecta.',
@@ -42,6 +46,7 @@ class AuthController extends Controller
 
         // Iniciar sesión
         Auth::loginUsingId($user->id);
+<<<<<<< HEAD
         $request->session()->regenerate(); // Regenerar la sesión por seguridad
 
         // Redirigir basado en el role_id
@@ -52,6 +57,27 @@ class AuthController extends Controller
         return back()->withErrors([
             'error' => 'No tienes permisos para acceder al sistema.',
         ]);
+=======
+        $request->session()->regenerate();
+
+        // Redirigir según el role_id del usuario
+        switch ($user->role_id) {
+            case 1:
+                return redirect('/maestro');
+            case 2:
+                return redirect('/dashboard');
+            case 3:
+                return redirect('/proyectos');
+            case 4:
+                return redirect('/pagina-role-4');
+            case 5:
+                return redirect('/pagina-role-5');
+            case 6:
+                return redirect('/pagina-role-6');
+            default:
+                return redirect('/default-page'); // Redirigir a una página por defecto si no coincide
+        }
+>>>>>>> paginas-Diego
     }
 
     // Procesar el logout
