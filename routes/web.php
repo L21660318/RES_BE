@@ -6,8 +6,11 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FileController;
 
 
+// Subir archivo
+Route::post('/upload-file', [FileController::class, 'uploadFile'])->name('uploadFile');
 
 // Rutas de autenticación
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');

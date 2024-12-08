@@ -1,240 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema de Residencias - SEPENET</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Awesome para los iconos -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #1a1a26, #0e0e18);
-      color: #d6d6d6;
-      margin: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Dashboard')</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
-    .main-content {
-      padding: 40px;
-      background: url('https://sic.cultura.gob.mx/images/119479') no-repeat center center fixed;
-      background-size: cover;
-      position: relative;
-      min-height: 100vh;
-      overflow-y: auto;
-    }
+    <style>
+        /* Estilos Personalizados */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffffff, #e3f2fd);
+            color: #333;
+            margin: 0;
+        }
 
-    .main-content:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6); /* Fondo gris para oscurecer la imagen */
-      z-index: 0;
-    }
+        .main-content {
+            padding: 40px;
+            background: url('https://sic.cultura.gob.mx/images/119479') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
 
-    .sidebar {
-      background-color: #212131;
-      height: 100vh;
-      padding-top: 30px;
-      box-shadow: 4px 0px 15px rgba(0, 0, 0, 0.5);
-    }
+        .main-content:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 0;
+        }
 
-    .sidebar .logo {
-      font-size: 30px;
-      font-weight: bold;
-      margin-bottom: 30px;
-      text-align: center;
-      color: #ffffff;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
+        .main-content .header {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background-color: transparent; /* Eliminar la barra blanca, haciéndola transparente */
+            padding: 15px;
+            border-radius: 8px;
+        }
 
-    .sidebar .menu li {
-      margin-bottom: 25px;
-    }
+        .main-content .header h1 {
+            font-size: 36px;
+            color: #fff;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
 
-    .sidebar .menu a {
-      text-decoration: none;
-      color: #dcdcdc;
-      font-size: 20px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      padding: 15px;
-      transition: all 0.3s ease;
-      border-radius: 8px;
-    }
+        .main-content .header input {
+            padding: 12px;
+            width: 300px;
+            border: none;
+            border-radius: 4px;
+            background: #f5f5f5;
+            color: #333;
+            font-size: 14px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
 
-    .sidebar .menu a:hover {
-      background-color: #2c3e50;
-      color: #ffffff;
-      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
-    }
+        /* Botón menú lateral más grande */
+        .btn-menu {
+            font-size: 24px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.7); /* Fondo transparente */
+            color: #0d47a1;
+            border: none;
+            border-radius: 30%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: absolute; /* Posicionar por encima del fondo */
+            top: 20px; /* Ajusta la posición del botón */
+            left: 20px; /* Ajusta la posición del botón */
+            z-index: 10; /* Asegura que el botón quede por encima del contenido */
+        }
 
-    .main-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-      z-index: 1;
-    }
+        .btn-menu:hover {
+            background-color: #0d47a1;
+            color: #ffffff;
+        }
 
-    .main-header input {
-      width: 400px;
-      padding: 15px;
-      border: none;
-      border-radius: 12px;
-      background-color: #333333;
-      color: #dcdcdc;
-      font-size: 18px;
-      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-    }
+        /* Ajustar el menú offcanvas */
+        .offcanvas {
+            background: #ffffff;
+            color: #333;
+            min-height: 100vh;
+            box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .main-header input::placeholder {
-      color: #7f8c8d;
-    }
+        .offcanvas .logo-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #0d47a1; /* Azul oscuro */
+        }
 
-    .main-header .notification {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      color: #ecf0f1;
-    }
+        .offcanvas .logo-container img {
+            height: 40px;
+            margin-right: 10px;
+        }
 
-    .main-header .notification img {
-      width: 40px;
-      height: 40px;
-    }
+        .offcanvas .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+        }
 
-    .card-projects {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-      position: relative;
-      z-index: 1;
-    }
+        .offcanvas .nav-link {
+            color: #333;
+            font-weight: bold;
+            font-size: 16px;
+            margin: 10px 0;
+            padding: 12px 15px;
+            text-decoration: none;
+            display: block;
+            position: relative;
+            transition: all 0.3s ease;
+        }
 
-    .card {
-      border-radius: 8px;
-      background-color: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      backdrop-filter: blur(8px);
-      transition: transform 0.3s ease;
-    }
+        .offcanvas .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: #0d47a1; /* Azul oscuro */
+            transition: width 0.3s ease;
+        }
 
-    .card:hover {
-      transform: scale(1.05);
-    }
+        .offcanvas .nav-link:hover:after {
+            width: 100%;
+        }
 
-    .card img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-    }
+        .offcanvas .nav-link:hover {
+            color: #0d47a1; /* Azul oscuro */
+        }
 
-    .card .content {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-    }
+        /* Estilo de la sección del perfil */
+        .modal-content {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-    .card .title {
-      color: #ffffff;
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
+        .modal-header {
+            border-bottom: 1px solid #ddd;
+        }
 
-    .card .desc {
-      color: #d6d6d6;
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
+        .modal-footer {
+            border-top: 1px solid #ddd;
+        }
 
-    .card .action {
-      align-self: flex-start;
-      padding: 8px 12px;
-      border-radius: 4px;
-      background: #2563eb;
-      color: #fff;
-      text-decoration: none;
-      transition: background 0.3s ease;
-    }
+        /* Estilo subida archivo */
+        .profile-arc {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 10px;
+            position: relative;
+            box-shadow: 0 5px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            margin-top: 80px;  /* Agregado: Baja el recuadro para evitar que tape el botón */
+        }
 
-    .card .action:hover {
-      background: #1d4ed8;
-    }
+        .profile-arc .profile-image {
+            width: 90px;
+            height: 100px;
+            border-radius: 70%;
+            background-color: #0d47a1;
+            color: white;
+            font-size: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
 
-    /* Responsiveness */
-    @media (max-width: 768px) {
-      .main-content {
-        padding: 20px;
-      }
-      .main-header input {
-        width: 100%;
-      }
-    }
-  </style>
+        .profile-arc .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0d47a1;
+        }
+
+        .profile-arc .profile-email {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .profile-arc .btn {
+            margin: 5px;
+            font-size: 20px;
+        }
+
+        .el-texto {
+            font-family: 'Arial', serif;
+            font-size: 18px; /* Tamaño del texto */
+            color: #333; /* Color del texto */
+            line-height: 1.6; /* Espaciado entre líneas */
+            text-align: justify; /* Texto justificado */
+            margin: 20px auto; /* Espaciado vertical y centrado horizontal */
+            padding: 0 20px; /* Espaciado interno de los lados */
+            max-width: 600px; /* Ancho máximo del texto */
+            letter-spacing: 0.5px; /* Espaciado entre letras */
+            background-color: rgba(240, 240, 240, 0.7); /* Fondo claro */
+            border-radius: 8px; /* Bordes redondeados */
+        }
+
+        .principal {
+            height: 200px;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
-  <div class="d-flex">
-    <!-- Sidebar -->
-    <div class="sidebar col-3">
-      <div class="logo">SEPENET</div>
-      <ul class="menu list-unstyled">
-        <li><a href="#"><i class="fas fa-school"></i> Dirección de Estudios</a></li>
-        <li><a href="#"><i class="fas fa-chart-line"></i> Estadísticas de Residencias</a></li>
-        <li><a href="#"><i class="fas fa-book"></i> Bitácoras de Residencias</a></li>
-        <li><a href="#"><i class="fas fa-house-user"></i> Residencias</a></li>
-        <li><a href="#"><i class="fas fa-file-alt"></i> Documentos de Residencias</a></li>
-        <li><a href="#"><i class="fas fa-check-circle"></i> No Adeudo</a></li>
-      </ul>
+    <!-- Botón para abrir el menú lateral (icono grande) -->
+    <button class="btn btn-menu m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
+            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
+        </svg>
+    </button>
+
+    <!-- Menú lateral (Offcanvas) -->
+    <div class="offcanvas offcanvas-start" id="offcanvasMenu" tabindex="-1" aria-labelledby="offcanvasLabel">
+        <div class="logo-container">
+            <img src="https://th.bing.com/th/id/R.418aad279098b8cee2a075ed29b48011?rik=q23X1HjmoWFcgQ&riu=http%3a%2f%2fwww.veracruz.tecnm.mx%2ftemplates%2frt_manticore%2fcustom%2fimages%2fImagenes%2fA2020%2fwebmay2020%2fwhite+eagle.png&ehk=X%2bhUhCScz6ur03iD%2fn1TgEYVXjltC%2blyuan6qdGnJr4%3d&risl=&pid=ImgRaw&r=0" alt="Logo">
+            <div class="logo">Tecnologico nacional de mexico</div>
+        </div>
+        <ul class="nav flex-column px-3">
+            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina1') }}"><i class="fas fa-home"></i> Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="fas fa-project-diagram"></i> Subir Documento</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina2') }}"><i class="fas fa-file-alt"></i> Mi Cuenta</a></li>
+            <li class="nav-item">
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="nav-link btn btn-link text-dark">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                    </button>
+                </form>
+            </li>
+        </ul>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content col-9">
-      <div class="main-header">
-        <input type="text" placeholder="Buscar un proyecto de residencia...">
-        <div class="notification">
-          <img src="https://img.icons8.com/material-outlined/24/000000/bell--v1.png" alt="Notificaciones">
-          <span>3</span>
+    <!-- Contenido principal -->
+    <main class="main-content">
+        <div class="profile-arc">
+            <!-- Título -->
+            <h1>¡Bienvenidos a la Plataforma de Residencias Profesionales!
+            </h1>
+            <img class="principal" src="https://th.bing.com/th/id/R.8202017928b1fe4051fcf9feb6dc458e?rik=q%2bpHMMDD0LROsw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-narPOVk1HVw%2fWhZkhmpSU6I%2fAAAAAAAACD0%2fxBxUfqFYTnIz0_NmDs_IrNkhkbnudC82ACK4BGAYYCw%2fs1600%2fMATEHUALA.png&ehk=wyPTHT%2f0FSDhDxuLpi2mLX78qBT4COd2%2baA%2fZADbiKQ%3d&risl=&pid=ImgRaw&r=0" alt="Logo">
+
+            <!-- Texto de auxilio -->
+            <p class="el-texto">Es un gusto recibirte en este espacio diseñado especialmente para apoyarte en tu etapa de formación profesional. 
+                Aquí encontrarás las herramientas, información y 
+                recursos necesarios para llevar a cabo tus residencias de manera exitosa.</p>
+            <!-- Botón para abrir el modal -->
+            <button type="button" class="btn btn-primary btn-upload" data-bs-toggle="modal" data-bs-target="#uploadFileModal">
+                Subir Archivo
+            </button>
         </div>
-      </div>
-      <!-- Tarjetas de proyectos -->
-      <div class="card-projects">
-        <div class="card">
-          <img src="https://www.tuxtla.tecnm.mx/wp-content/uploads/2021/09/resprof_02.jpg" alt="Residencia 1">
-          <div class="content">
-            <div class="title">Residencia 1</div>
-            <div class="desc">Revisión de procesos administrativos</div>
-            <a href="#" class="action">Ver detalles</a>
-          </div>
+    </main>
+
+
+
+    <!-- Modal para modificar contraseña -->
+    <div class="modal fade" id="uploadFileModal" tabindex="-1" aria-labelledby="uploadFileModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadFileModalLabel">Subir Archivo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Formulario de subida de archivo -->
+                    <form method="POST" action="{{ route('uploadFile') }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Fecha</label>
+                            <input type="date" class="form-control" id="date" name="date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="file" class="form-label">Archivo</label>
+                            <input type="file" class="form-control" id="file" name="file" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Subir Archivo</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
         </div>
-        <div class="card">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCpUZm98Zmg6L0ddSfIHUsomyla_KHdseXnowgZ6WzgrJJhqQjkkv2_gffS4ArydcnAjA&usqp=CAU" alt="Residencia 2">
-          <div class="content">
-            <div class="title">Residencia 2</div>
-            <div class="desc">Optimización de recursos</div>
-            <a href="#" class="action">Ver detalles</a>
-          </div>
-        </div>
-        <div class="card">
-          <img src="https://www.tuxtla.tecnm.mx/wp-content/uploads/2021/09/PortadaProyectosProf.jpg" alt="Residencia 3">
-          <div class="content">
-            <div class="title">Residencia 3</div>
-            <div class="desc">Desarrollo de software interno</div>
-            <a href="#" class="action">Ver detalles</a>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
