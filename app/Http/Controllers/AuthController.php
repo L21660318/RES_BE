@@ -17,13 +17,13 @@ class AuthController extends Controller
     // Procesar el login
     public function login(Request $request)
     {
-        // Validar los datos recibidos
+        // Validación de los datos recibidos
         $credentials = $request->validate([
-            'email' => 'required|email', // Validar que el email sea válido
-            'password' => 'required',    // Validar que la contraseña esté presente
+            'email' => 'required|email', // Asegurarse de que el email sea válido
+            'password' => 'required',    // Asegurarse de que la contraseña esté presente
         ]);
 
-        // Buscar al usuario en la base de datos
+        // Buscar el usuario en la base de datos por el correo electrónico (en la tabla 'usuarios')
         $user = DB::table('usuarios')->where('email', $credentials['email'])->first();
 
         // Verificar si el usuario fue encontrado
@@ -33,11 +33,7 @@ class AuthController extends Controller
             ])->onlyInput('email');
         }
 
-<<<<<<< HEAD
-        // Comparar contraseñas en texto plano
-=======
         // Verificar si las contraseñas coinciden
->>>>>>> paginas-Diego
         if ($user->password !== $credentials['password']) {
             return back()->withErrors([
                 'password' => 'La contraseña es incorrecta.',
@@ -46,18 +42,6 @@ class AuthController extends Controller
 
         // Iniciar sesión
         Auth::loginUsingId($user->id);
-<<<<<<< HEAD
-        $request->session()->regenerate(); // Regenerar la sesión por seguridad
-
-        // Redirigir basado en el role_id
-        if ($user->role_id == 2) {
-            return redirect()->route('alumno');
-        }
-
-        return back()->withErrors([
-            'error' => 'No tienes permisos para acceder al sistema.',
-        ]);
-=======
         $request->session()->regenerate();
 
         // Redirigir según el role_id del usuario
@@ -77,16 +61,15 @@ class AuthController extends Controller
             default:
                 return redirect('/default-page'); // Redirigir a una página por defecto si no coincide
         }
->>>>>>> paginas-Diego
     }
 
     // Procesar el logout
     public function logout(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        Auth::logout(); // Cerrar sesión
+        $request->session()->invalidate(); // Invalidar la sesión
+        $request->session()->regenerateToken(); // Regenerar el token CSRF
 
-        return redirect('/'); // Redirigir a la página de login
+        return redirect('/login'); // Redirigir a la página de login
     }
 }
