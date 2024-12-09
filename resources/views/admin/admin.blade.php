@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard')</title>
+    <title>@yield('title', 'Admin')</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -146,23 +146,7 @@
         }
 
         /* Estilo de la sección del perfil */
-        .modal-content {
-            background: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .modal-header {
-            border-bottom: 1px solid #ddd;
-        }
-
-        .modal-footer {
-            border-top: 1px solid #ddd;
-        }
-
-        /* Estilo subida archivo */
-        .profile-arc {
+        .profile-section {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -177,7 +161,7 @@
             margin-top: 80px;  /* Agregado: Baja el recuadro para evitar que tape el botón */
         }
 
-        .profile-arc .profile-image {
+        .profile-section .profile-image {
             width: 90px;
             height: 100px;
             border-radius: 70%;
@@ -190,40 +174,21 @@
             margin-bottom: 20px;
         }
 
-        .profile-arc .profile-name {
+        .profile-section .profile-name {
             font-size: 24px;
             font-weight: bold;
             color: #0d47a1;
         }
 
-        .profile-arc .profile-email {
+        .profile-section .profile-email {
             font-size: 16px;
             color: #555;
             margin-bottom: 20px;
         }
 
-        .profile-arc .btn {
+        .profile-section .btn {
             margin: 5px;
             font-size: 20px;
-        }
-
-        .el-texto {
-            font-family: 'Arial', serif;
-            font-size: 18px; /* Tamaño del texto */
-            color: #333; /* Color del texto */
-            line-height: 1.6; /* Espaciado entre líneas */
-            text-align: justify; /* Texto justificado */
-            margin: 20px auto; /* Espaciado vertical y centrado horizontal */
-            padding: 0 20px; /* Espaciado interno de los lados */
-            max-width: 600px; /* Ancho máximo del texto */
-            letter-spacing: 0.5px; /* Espaciado entre letras */
-            background-color: rgba(240, 240, 240, 0.7); /* Fondo claro */
-            border-radius: 8px; /* Bordes redondeados */
-        }
-
-        .principal {
-            height: 200px;
-            margin-right: 10px;
         }
     </style>
 </head>
@@ -243,8 +208,7 @@
             <div class="logo">Tecnologico nacional de mexico</div>
         </div>
         <ul class="nav flex-column px-3">
-            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina1') }}"><i class="fas fa-home"></i> Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="fas fa-project-diagram"></i>Etapas</a></li>
+            <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-project-diagram"></i>CRUD</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina2') }}"><i class="fas fa-file-alt"></i> Mi Cuenta</a></li>
             <li class="nav-item">
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
@@ -259,58 +223,111 @@
 
     <!-- Contenido principal -->
     <main class="main-content">
-        <div class="profile-arc">
-            <!-- Título -->
-            <h1>¡Bienvenidos a la Plataforma de Residencias Profesionales!
-            </h1>
-            <img class="principal" src="https://th.bing.com/th/id/R.8202017928b1fe4051fcf9feb6dc458e?rik=q%2bpHMMDD0LROsw&riu=http%3a%2f%2f1.bp.blogspot.com%2f-narPOVk1HVw%2fWhZkhmpSU6I%2fAAAAAAAACD0%2fxBxUfqFYTnIz0_NmDs_IrNkhkbnudC82ACK4BGAYYCw%2fs1600%2fMATEHUALA.png&ehk=wyPTHT%2f0FSDhDxuLpi2mLX78qBT4COd2%2baA%2fZADbiKQ%3d&risl=&pid=ImgRaw&r=0" alt="Logo">
-
-            <!-- Texto de auxilio -->
-            <p class="el-texto">Es un gusto recibirte en este espacio diseñado especialmente para apoyarte en tu etapa de formación profesional. 
-                Aquí encontrarás las herramientas, información y 
-                recursos necesarios para llevar a cabo tus residencias de manera exitosa.</p>
-            <!-- Botón para abrir el modal -->
-            <button type="button" class="btn btn-primary btn-upload" data-bs-toggle="modal" data-bs-target="#uploadFileModal">
-                Subir Archivo
-            </button>
+        <!-- Sección de perfil -->
+        <div class="profile-section">
+            <h1 class="text-center mb-4">Gestión de Usuarios</h1>
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($usuarios as $usuario)
+                    <tr>
+                        <td>{{ $usuario->id }}</td>
+                        <td>{{ $usuario->nombre }}</td>
+                        <td>{{ $usuario->email }}</td>
+                        <td>{{ $usuario->role_id }}</td>
+                        <td>
+                            <button 
+                                class="btn btn-primary btn-sm" 
+                                data-bs-toggle="modal" 
+                                data-bs-target="#editRoleModal" 
+                                data-id="{{ $usuario->id }}" 
+                                data-role="{{ $usuario->role_id }}"
+                            >
+                                Cambiar Rol
+                            </button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </main>
 
-
-
-    <!-- Modal para modificar contraseña -->
-    <div class="modal fade" id="uploadFileModal" tabindex="-1" aria-labelledby="uploadFileModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editRoleModal" tabindex="-1" aria-labelledby="editRoleLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="uploadFileModalLabel">Subir Archivo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="editRoleLabel">Editar Rol de Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Formulario de subida de archivo -->
-                    <form method="POST" action="{{ route('uploadFile') }}" enctype="multipart/form-data">
+                    <form id="editRoleForm">
                         @csrf
+                        <input type="hidden" id="userId">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <label for="roleSelect" class="form-label">Seleccionar Nuevo Rol</label>
+                            <select id="roleSelect" class="form-select">
+                                <option value="1">Administrador</option>
+                                <option value="2">Editor</option>
+                                <option value="3">Usuario</option>
+                            </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="date" class="form-label">Fecha</label>
-                            <input type="date" class="form-control" id="date" name="date" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="file" class="form-label">Archivo</label>
-                            <input type="file" class="form-control" id="file" name="file" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Subir Archivo</button>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        const editRoleModal = document.getElementById('editRoleModal');
+        const userIdInput = document.getElementById('userId');
+        const roleSelect = document.getElementById('roleSelect');
+        const editRoleForm = document.getElementById('editRoleForm');
+
+        editRoleModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget;
+            const userId = button.getAttribute('data-id');
+            const userRole = button.getAttribute('data-role');
+
+            userIdInput.value = userId;
+            roleSelect.value = userRole;
+        });
+
+        editRoleForm.addEventListener('submit', event => {
+            event.preventDefault();
+
+            const userId = userIdInput.value;
+            const newRole = roleSelect.value;
+
+            fetch(`/usuarios/${userId}/update-role`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ role_id: newRole })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Rol actualizado correctamente.');
+                    location.reload();
+                } else {
+                    alert('Hubo un error al actualizar el rol.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -8,11 +8,35 @@ use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\DashboardController; // Controlador para el dashboard
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UsuarioController;
-
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MaestroController;
-
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+
+//pantalla-admin
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+
+
+
+//admin
+Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
+
+Route::post('/usuarios/{id}/update-role', [UsuarioController::class, 'updateRole'])->name('usuarios.updateRole');
+
+//jefe de departamento
+Route::get('/jefe-departamento', function () {
+    return view('jefe-departamento.jefedep');
+})->name('jefe.departamento');
+
+//jefe academico
+Route::get('/jefe-academico', function () {
+    return view('jefe-academico.jefeac');
+})->name('jefe.academico');
+
+// Subir archivo
+Route::post('/upload-file', [FileController::class, 'uploadFile'])->name('uploadFile');
+
 
 // Rutas de autenticación
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');

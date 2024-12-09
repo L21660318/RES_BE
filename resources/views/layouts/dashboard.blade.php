@@ -34,9 +34,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.7); /* Si quieres mantener un poco de opacidad */
-            z-index: -1; /* Asegura que esta capa esté debajo de los elementos interactivos */
-            pointer-events: none; /* Impide que esta capa reciba clics */
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 0;
         }
 
         .main-content .header {
@@ -196,10 +195,9 @@
             <div class="logo">Tecnologico nacional de mexico</div>
         </div>
         <ul class="nav flex-column px-3">
-            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="fas fa-home"></i> Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina1') }}"><i class="fas fa-project-diagram"></i> Segimiento</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina2') }}"><i class="fas fa-file-alt"></i> Documentos</a></li>
-            <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-user-circle"></i> Mi Cuenta</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina1') }}"><i class="fas fa-home"></i> Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="fas fa-project-diagram"></i> Etapas</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina2') }}"><i class="fas fa-file-alt"></i> Mi Cuenta</a></li>
             <li class="nav-item">
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
