@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\AlumnoController;
-
+use App\Http\Controllers\ProyectosController; 
 use App\Http\Controllers\DashboardController; // Controlador para el dashboard
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UsuarioController;
@@ -13,6 +13,9 @@ use App\Http\Controllers\MaestroController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+
+// Ruta para mostrar los proyectos
+Route::get('/proyectos', [ProyectosController::class, 'showProyectos'])->name('proyectos.index');
 
 //pantalla-admin
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
