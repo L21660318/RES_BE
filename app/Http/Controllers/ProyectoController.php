@@ -49,6 +49,6 @@ class ProyectoController extends Controller
     public function show($id)
     {
         $proyecto = Proyecto::findOrFail($id);
-        return view('alumno.show', compact('proyecto'));
+        return view('dashboard.index', compact('proyecto'));
     }
 }

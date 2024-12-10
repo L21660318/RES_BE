@@ -13,25 +13,13 @@ use Illuminate\Database\Eloquent\Model;
 class Proyecto extends Model
 
 {
-
     use HasFactory;
-
-
-
     protected $fillable = [
-
         'nombre', 'descripcion', 'imagen', 'usuario_id', 'archivo_pdf'
-
     ];
 
-
-
     public function usuario()
-
     {
-
         return $this->belongsTo(User::class);
-
     }
-
 }
