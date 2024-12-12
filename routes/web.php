@@ -2,9 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
 use App\Http\Controllers\AlumnoController;
-use App\Http\Controllers\ProyectosController; 
 use App\Http\Controllers\DashboardController; // Controlador para el dashboard
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UsuarioController;
@@ -13,9 +11,14 @@ use App\Http\Controllers\MaestroController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProyectosController;
+
 
 // Ruta para mostrar los proyectos
-Route::get('/proyectos', [ProyectosController::class, 'showProyectos'])->name('proyectos.index');
+
+Route::get('proyectos/create', [ProyectosController::class, 'create'])->name('proyectos.create');
+Route::post('proyectos', [ProyectosController::class, 'store'])->name('proyectos.store');
+Route::get('/proyectos/show', [ProyectosController::class, 'show'])->name('proyectos.show')->middleware('auth');
 
 //pantalla-admin
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
@@ -86,15 +89,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/maestro', [MaestroController::class, 'index'])->name('maestro');
 });
 
-use App\Http\Controllers\ProyectoController;
 
-// Rutas para los alumnos
-Route::middleware(['auth'])->group(function () {
-    Route::get('/proyectos', [ProyectoController::class, 'index'])->name('proyectos.index'); // Listar proyectos
-    Route::get('/proyectos/create', [ProyectoController::class, 'create'])->name('proyectos.create'); // Crear proyecto
-    Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store'); // Guardar proyecto
-    Route::get('/proyectos/{id}', [ProyectoController::class, 'show'])->name('proyectos.show'); // Ver proyecto
-});
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->middleware('auth');
 

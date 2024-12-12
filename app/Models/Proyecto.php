@@ -2,24 +2,19 @@
 
 namespace App\Models;
 
-
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
 use Illuminate\Database\Eloquent\Model;
 
-
-
 class Proyecto extends Model
-
 {
     use HasFactory;
-    protected $fillable = [
-        'nombre', 'descripcion', 'imagen', 'usuario_id', 'archivo_pdf'
-    ];
 
-    public function usuario()
-    {
-        return $this->belongsTo(User::class);
-    }
+    protected $fillable = [
+        'nombre',
+        'descripcion',
+        'imagen',
+        'archivo_pdf',
+        'usuario_id',
+    ];
 }
+
