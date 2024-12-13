@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'jefe-academico')</title>
+    <title>@yield('title', 'Dashboard')</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -145,50 +145,73 @@
             color: #0d47a1; /* Azul oscuro */
         }
 
-        /* Estilo de la sección del perfil */
-        .profile-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px; /* Espacio entre elementos */
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.85); /* Fondo blanco con opacidad */
+            border-radius: 12px;
+            padding: 20px;
             text-align: center;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            padding: 10px;
-            position: relative;
-            box-shadow: 0 5px 4px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            margin-top: 80px;  /* Agregado: Baja el recuadro para evitar que tape el botón */
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .profile-section .profile-image {
-            width: 90px;
-            height: 100px;
-            border-radius: 70%;
-            background-color: #0d47a1;
-            color: white;
-            font-size: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
         }
 
-        .profile-section .profile-name {
-            font-size: 24px;
-            font-weight: bold;
-            color: #0d47a1;
+        .card .image {
+            width: 100%;
+            height: 150px;
+            background-size: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
         }
 
-        .profile-section .profile-email {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 20px;
-        }
-
-        .profile-section .btn {
-            margin: 5px;
+        .card .title {
+            color: #0d47a1; /* Azul oscuro */
             font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card .desc {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .card .actions {
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .card .btn {
+            width: 48%;
+            padding: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .card .btn-success {
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .card .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .card .btn:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
@@ -209,11 +232,8 @@
         </div>
         <ul class="nav flex-column px-3">
             <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina1') }}"><i class="fas fa-home"></i> Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="fas fa-project-diagram"></i>Revision</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina2') }}"><i class="fas fa-file-alt"></i> Documentos revisados</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina2') }}"><i class="fas fa-file-alt"></i> Documentos en revision</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina2') }}"><i class="fas fa-file-alt"></i> Documentos</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina2') }}"><i class="fas fa-file-alt"></i> Documentos</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="fas fa-project-diagram"></i> Etapas</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina2') }}"><i class="fas fa-file-alt"></i> Mi Cuenta</a></li>
             <li class="nav-item">
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
@@ -227,16 +247,10 @@
 
     <!-- Contenido principal -->
     <main class="main-content">
-        <!-- Sección de perfil -->
-        <div class="profile-section">
-            <div class="logo">Modulo Jefe Academico</div>
+        <div class="projects">
+            @yield('content')
         </div>
     </main>
-
-    
-
-
-
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
