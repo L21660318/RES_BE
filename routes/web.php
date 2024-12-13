@@ -18,7 +18,7 @@ use App\Http\Controllers\ProyectosController;
 
 Route::get('proyectos/create', [ProyectosController::class, 'create'])->name('proyectos.create');
 Route::post('proyectos', [ProyectosController::class, 'store'])->name('proyectos.store');
-Route::get('/proyectos/show', [ProyectosController::class, 'show'])->name('proyectos.show')->middleware('auth');
+Route::get('/proyectos/index', [ProyectosController::class, 'index'])->name('proyectos.index')->middleware('auth');
 
 //pantalla-admin
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');

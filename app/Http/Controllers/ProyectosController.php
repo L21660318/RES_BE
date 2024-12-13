@@ -15,18 +15,10 @@ class ProyectosController extends Controller
         return view('proyectos.create');
     }
 
-    public function show()
+    public function index()
     {
-        // Obtener el último proyecto del usuario autenticado
-        $proyecto = Proyecto::where('usuario_id', Auth::id())->latest()->first();
-
-        if (!$proyecto) {
-            // Redirigir si no se encuentra un proyecto asociado
-            return redirect()->route('proyectos.create')->withErrors('No tienes proyectos registrados.');
-        }
-
-        // Retornar la vista del dashboard con el proyecto
-        return view('dashboard.index', compact('proyecto'));
+        $proyectos = Proyecto::where('usuario_id', Auth::id())->get(); // Obtener todos los proyectos del usuario
+        return view('dashboard.index', compact('proyectos')); // Pasar como "proyectos"
     }
 
 
@@ -39,6 +31,9 @@ class ProyectosController extends Controller
                 'descripcion' => 'required|string|max:1000',
                 'imagen' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
                 'archivo_pdf' => 'nullable|file|mimes:pdf|max:2048',
+            ], [
+                'nombre.required' => 'El nombre del proyecto es obligatorio.',
+                'descripcion.required' => 'La descripción es obligatoria.',
             ]);
 
             // Obtener el correo electrónico del usuario autenticado

@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Proyecto;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboard.index');
+        $proyectos = Proyecto::where('usuario_id', Auth::id())->get(); // Proyectos del usuario actual
+        return view('dashboard.index', compact('proyectos')); // Enviar $proyectos a la vista
     }
 
     public function pagina1()

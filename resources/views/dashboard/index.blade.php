@@ -259,18 +259,21 @@
 
     <!-- Contenido principal -->
     <main class="main-content">
-        @if($proyecto)
-            <div class="profile-arc">
-                <h1>¡Etapas De Tu Proyecto De Residencias!</h1>
-                <img class="principal" src="{{ $proyecto->imagen ? asset('storage/' . $proyecto->imagen) : 'https://via.placeholder.com/150' }}" alt="Imagen del Proyecto">
-                <h2>{{ $proyecto->nombre }}</h2>
-                <p class="el-texto">{{ $proyecto->descripcion }}</p>
-                <a href="{{ asset('storage/' . $proyecto->archivo_pdf) }}" class="btn btn-success mt-3" download>Descargar Archivo</a>
-            </div>
+        @if($proyectos->isNotEmpty())
+            <h1>¡Etapas De Tus Proyectos De Residencias!</h1>
+            @foreach($proyectos as $proyecto)
+                <div class="profile-arc">
+                    <img class="principal" src="{{ $proyecto->imagen ? asset('storage/' . $proyecto->imagen) : 'https://via.placeholder.com/150' }}" alt="Imagen del Proyecto">
+                    <h2>{{ $proyecto->nombre }}</h2>
+                    <p class="el-texto">{{ $proyecto->descripcion }}</p>
+                    <a href="{{ asset('storage/' . $proyecto->archivo_pdf) }}" class="btn btn-success mt-3" download>Descargar Archivo</a>
+                </div>
+            @endforeach
         @else
             <p>No tienes proyectos registrados.</p>
         @endif
     </main>
+
 
 
     <!-- Bootstrap JS -->
