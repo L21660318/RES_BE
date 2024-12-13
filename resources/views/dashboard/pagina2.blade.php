@@ -201,7 +201,7 @@
         </svg>
     </button>
 
-    <!-- Menú lateral (Offcanvas) -->
+    
     <div class="offcanvas offcanvas-start" id="offcanvasMenu" tabindex="-1" aria-labelledby="offcanvasLabel">
         <div class="logo-container">
             <img src="https://th.bing.com/th/id/R.418aad279098b8cee2a075ed29b48011?rik=q23X1HjmoWFcgQ&riu=http%3a%2f%2fwww.veracruz.tecnm.mx%2ftemplates%2frt_manticore%2fcustom%2fimages%2fImagenes%2fA2020%2fwebmay2020%2fwhite+eagle.png&ehk=X%2bhUhCScz6ur03iD%2fn1TgEYVXjltC%2blyuan6qdGnJr4%3d&risl=&pid=ImgRaw&r=0" alt="Logo">
@@ -222,18 +222,18 @@
         </ul>
     </div>
 
-    <!-- Contenido principal -->
+
     <main class="main-content">
         <!-- Sección de perfil -->
         <div class="profile-section">
-            <!-- Imagen de perfil (inicial) -->
+      
             <div class="profile-image">
                 <span>{{ strtoupper(substr(Auth::user()->nombre, 0, 1)) }}</span>
             </div>
             <div class="profile-name">{{ Auth::user()->nombre }}</div>
             <div class="profile-email">{{ Auth::user()->email }}</div>
 
-            <!-- Botones de acciones -->
+ 
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
                 Modificar Contraseña
             </button>
@@ -245,7 +245,6 @@
         </div>
     </main>
 
-    <!-- Modal para modificar contraseña -->
     <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -254,7 +253,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Mensajes de éxito y error -->
                     @if(session('success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             {{ session('success') }}
@@ -274,7 +272,6 @@
                     @endif
 
 
-                    <!-- Formulario de cambio de contraseña -->
 
                     <form id="changePasswordForm" method="POST" action="{{ route('changePassword') }}">
                         @csrf

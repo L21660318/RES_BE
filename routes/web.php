@@ -36,10 +36,7 @@ Route::get('/jefe-departamento', function () {
     return view('jefe-departamento.jefedep');
 })->name('jefe.departamento');
 
-//jefe academico
-Route::get('/jefe-academico', function () {
-    return view('jefe-academico.jefeac');
-})->name('jefe.academico');
+
 
 // Subir archivo
 Route::post('/upload-file', [FileController::class, 'uploadFile'])->name('uploadFile');
