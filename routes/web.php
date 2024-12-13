@@ -96,3 +96,16 @@ Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->mi
 
 Route::post('/change-password', [UserController::class, 'changePassword'])->name('changePassword');
 
+
+use App\Http\Controllers\JefeAcademicoController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('jefe-academico/proyectos', [JefeAcademicoController::class, 'index'])->name('jefe-academico.index');
+    Route::post('jefe-academico/proyectos/{proyectoId}/{estado}', [JefeAcademicoController::class, 'cambiarEstado'])->name('jefe-academico.cambiarEstado');
+});
+
+
+
+use App\Http\Controllers\EmpresaController;
+
+Route::resource('empresas', EmpresaController::class);
