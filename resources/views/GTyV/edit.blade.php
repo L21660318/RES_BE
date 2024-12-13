@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.gtyv')
 
 @section('header', 'Modificar Estado de la Empresa')
 

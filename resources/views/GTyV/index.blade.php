@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.gtyv')
 
 @section('header', 'Gestión Tecnológica y Vinculación')
 

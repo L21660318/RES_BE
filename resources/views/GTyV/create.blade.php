@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.gtyv')
 
 @section('header', 'Registrar Nueva Empresa')
 
