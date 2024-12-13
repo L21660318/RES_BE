@@ -12,6 +12,8 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProyectosController;
+use App\Http\Controllers\EstadisticaController; 
+use App\Http\Controllers\Job_BatchesController; 
 
 
 // Ruta para mostrar los proyectos
@@ -102,10 +104,18 @@ use App\Http\Controllers\JefeAcademicoController;
 Route::middleware(['auth'])->group(function () {
     Route::get('jefe-academico/proyectos', [JefeAcademicoController::class, 'index'])->name('jefe-academico.index');
     Route::post('jefe-academico/proyectos/{proyectoId}/{estado}', [JefeAcademicoController::class, 'cambiarEstado'])->name('jefe-academico.cambiarEstado');
-});
+
 
 
 
 use App\Http\Controllers\EmpresaController;
 
 Route::resource('empresas', EmpresaController::class);
+
+    // Ruta para estadísticas
+    Route::get('/estadisticas', [EstadisticaController::class, 'index'])->name('estadisticas.index');
+
+    // Ruta para los Job Batches
+    Route::get('/job-batches', [Job_BatchesController::class, 'index'])->name('job_batches.index');
+    Route::post('/job-batches/store', [Job_BatchesController::class, 'store'])->name('job_batches.store');
+});
