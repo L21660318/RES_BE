@@ -208,8 +208,8 @@
             <div class="logo">Tecnologico nacional de mexico</div>
         </div>
         <ul class="nav flex-column px-3">
-            <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-project-diagram"></i>CRUD</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina2') }}"><i class="fas fa-file-alt"></i> Mi Cuenta</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('admin.index') }}"><i class="fas fa-project-diagram"></i>CRUD</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('admin.admincuen') }}"><i class="fas fa-file-alt"></i> Mi Cuenta</a></li>
             <li class="nav-item">
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
@@ -223,6 +223,22 @@
 
     <!-- Contenido principal -->
     <main class="main-content">
+        <!-- Mensaje de éxito -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <!-- Mensaje de error -->
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <!-- Sección de perfil -->
         <div class="profile-section">
             <h1 class="text-center mb-4">Gestión de Usuarios</h1>
@@ -269,65 +285,80 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editRoleForm">
-                        @csrf
-                        <input type="hidden" id="userId">
-                        <div class="mb-3">
-                            <label for="roleSelect" class="form-label">Seleccionar Nuevo Rol</label>
-                            <select id="roleSelect" class="form-select">
-                                <option value="1">Administrador</option>
-                                <option value="2">Editor</option>
-                                <option value="3">Usuario</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                    </form>
+                <form id="editRoleForm" method="POST" action="{{ route('usuarios.updateRole', ':id') }}">
+                    @csrf
+                    @method('POST')
+                    <input type="hidden" id="userId" name="userId">
+                    <div class="mb-3">
+                        <label for="roleSelect" class="form-label">Seleccionar Nuevo Rol</label>
+                        <select id="roleSelect" name="role_id" class="form-select">
+                            <option value="1">Administrador</option>
+                            <option value="2">Alumno</option>
+                            <option value="3">Jefe Academico</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const editRoleModal = document.getElementById('editRoleModal');
-        const userIdInput = document.getElementById('userId');
-        const roleSelect = document.getElementById('roleSelect');
-        const editRoleForm = document.getElementById('editRoleForm');
+        document.addEventListener('DOMContentLoaded', function () {
+            const editRoleButtons = document.querySelectorAll('[data-bs-toggle="modal"]');
+            
+            editRoleButtons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    // Obtén el ID y el rol del usuario desde los atributos data
+                    const userId = e.target.getAttribute('data-id');
+                    const userRole = e.target.getAttribute('data-role');
 
-        editRoleModal.addEventListener('show.bs.modal', event => {
-            const button = event.relatedTarget;
-            const userId = button.getAttribute('data-id');
-            const userRole = button.getAttribute('data-role');
+                    // Asegúrate de que los elementos del formulario existen antes de manipularlos
+                    const userIdField = document.getElementById('userId');
+                    const roleSelect = document.getElementById('roleSelect');
 
-            userIdInput.value = userId;
-            roleSelect.value = userRole;
-        });
+                    if (userIdField && roleSelect) {
+                        // Asigna los valores al formulario
+                        userIdField.value = userId;
+                        roleSelect.value = userRole;
 
-        editRoleForm.addEventListener('submit', event => {
-            event.preventDefault();
-
-            const userId = userIdInput.value;
-            const newRole = roleSelect.value;
-
-            fetch(`/usuarios/${userId}/update-role`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({ role_id: newRole })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Rol actualizado correctamente.');
-                    location.reload();
-                } else {
-                    alert('Hubo un error al actualizar el rol.');
-                }
-            })
-            .catch(error => console.error('Error:', error));
+                        // Actualiza la acción del formulario con el ID correcto
+                        const formAction = document.getElementById('editRoleForm').action.replace(':id', userId);
+                        document.getElementById('editRoleForm').action = formAction;
+                    } else {
+                        console.error('No se encontraron los elementos del formulario');
+                    }
+                });
+            });
         });
     </script>
+
+    <script>
+        // Función para ocultar las alertas después de 5 segundos
+        document.addEventListener('DOMContentLoaded', function() {
+            // Buscar las alertas
+            const successAlert = document.getElementById('successAlert');
+            const errorAlert = document.getElementById('errorAlert');
+
+            // Si existe la alerta de éxito, ocultarla después de 5 segundos
+            if (successAlert) {
+                setTimeout(function() {
+                    successAlert.classList.remove('show');
+                    successAlert.classList.add('fade');
+                }, 5000); // 5000 milisegundos = 5 segundos
+            }
+
+            // Si existe la alerta de error, ocultarla después de 5 segundos
+            if (errorAlert) {
+                setTimeout(function() {
+                    errorAlert.classList.remove('show');
+                    errorAlert.classList.add('fade');
+                }, 5000); // 5000 milisegundos = 5 segundos
+            }
+        });
+</script>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

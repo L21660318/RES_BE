@@ -20,16 +20,25 @@ class UsuarioController extends Controller
     // Actualizar el rol del usuario
     public function updateRole(Request $request, $id)
     {
-        // Validar el nuevo rol
-        $request->validate([
-            'role_id' => 'required|integer|min:1|max:3',
+        // Validar los datos recibidos
+        $validated = $request->validate([
+            'role_id' => 'required|in:1,2,3',
         ]);
 
-        // Buscar el usuario y actualizar el rol
-        $usuario = Usuario::findOrFail($id);
-        $usuario->role_id = $request->input('role_id');
-        $usuario->save();
+        try {
+            // Buscar al usuario por su ID
+            $usuario = Usuario::findOrFail($id);
 
-        return response()->json(['success' => true]);
+            // Actualizar el rol del usuario
+            $usuario->role_id = $request->input('role_id');
+            $usuario->save();
+
+            // Mensaje de éxito
+            return redirect()->route('admin.index')->with('success', 'Rol actualizado correctamente.');
+        } catch (\Exception $e) {
+            // Mensaje de error si ocurre una excepción
+            return redirect()->route('admin.index')->with('error', 'Hubo un problema al actualizar el rol.');
+        }
     }
+
 }

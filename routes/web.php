@@ -22,6 +22,7 @@ Route::get('/proyectos/index', [ProyectosController::class, 'index'])->name('pro
 
 //pantalla-admin
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+Route::get('/admin/admincuen', [AdminController::class, 'admincuen'])->name('admin.admincuen');
 
 
 

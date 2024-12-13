@@ -47,11 +47,11 @@ class AuthController extends Controller
         // Redirigir según el role_id del usuario
         switch ($user->role_id) {
             case 1:
-                return redirect('/maestro');
+                return redirect('/admin');
             case 2:
                 return redirect('/dashboard');
             case 3:
-                return redirect('/proyectos');
+                return redirect('/jefe-academico');
             case 4:
                 return redirect('/pagina-role-4');
             case 5:

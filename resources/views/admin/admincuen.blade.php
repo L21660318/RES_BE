@@ -146,23 +146,7 @@
         }
 
         /* Estilo de la sección del perfil */
-        .modal-content {
-            background: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .modal-header {
-            border-bottom: 1px solid #ddd;
-        }
-
-        .modal-footer {
-            border-top: 1px solid #ddd;
-        }
-
-        /* Estilo subida archivo */
-        .profile-arc {
+        .profile-section {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -177,7 +161,7 @@
             margin-top: 80px;  /* Agregado: Baja el recuadro para evitar que tape el botón */
         }
 
-        .profile-arc .profile-image {
+        .profile-section .profile-image {
             width: 90px;
             height: 100px;
             border-radius: 70%;
@@ -190,40 +174,21 @@
             margin-bottom: 20px;
         }
 
-        .profile-arc .profile-name {
+        .profile-section .profile-name {
             font-size: 24px;
             font-weight: bold;
             color: #0d47a1;
         }
 
-        .profile-arc .profile-email {
+        .profile-section .profile-email {
             font-size: 16px;
             color: #555;
             margin-bottom: 20px;
         }
 
-        .profile-arc .btn {
+        .profile-section .btn {
             margin: 5px;
             font-size: 20px;
-        }
-
-        .el-texto {
-            font-family: 'Arial', serif;
-            font-size: 18px; /* Tamaño del texto */
-            color: #333; /* Color del texto */
-            line-height: 1.6; /* Espaciado entre líneas */
-            text-align: justify; /* Texto justificado */
-            margin: 20px auto; /* Espaciado vertical y centrado horizontal */
-            padding: 0 20px; /* Espaciado interno de los lados */
-            max-width: 600px; /* Ancho máximo del texto */
-            letter-spacing: 0.5px; /* Espaciado entre letras */
-            background-color: rgba(240, 240, 240, 0.7); /* Fondo claro */
-            border-radius: 8px; /* Bordes redondeados */
-        }
-
-        .principal {
-            height: 200px;
-            margin-right: 10px;
         }
     </style>
 </head>
@@ -243,9 +208,8 @@
             <div class="logo">Tecnologico nacional de mexico</div>
         </div>
         <ul class="nav flex-column px-3">
-            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina1') }}"><i class="fas fa-home"></i> Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="fas fa-project-diagram"></i>Etapas</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.pagina2') }}"><i class="fas fa-file-alt"></i> Mi Cuenta</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('admin.index') }}"><i class="fas fa-project-diagram"></i>CRUD</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('admin.admincuen') }}"><i class="fas fa-file-alt"></i> Mi Cuenta</a></li>
             <li class="nav-item">
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
@@ -259,73 +223,84 @@
 
     <!-- Contenido principal -->
     <main class="main-content">
-        @if (session('success'))
-            <div class="alert alert-success" id="success-alert">
-                {{ session('success') }}
+        <!-- Sección de perfil -->
+        <div class="profile-section">
+            <!-- Imagen de perfil (inicial) -->
+            <div class="profile-image">
+                <span>{{ strtoupper(substr(Auth::user()->nombre, 0, 1)) }}</span>
             </div>
-        @endif
+            <div class="profile-name">{{ Auth::user()->nombre }}</div>
+            <div class="profile-email">{{ Auth::user()->email }}</div>
 
-        @if ($errors->any())
-            <div class="alert alert-danger" id="error-alert">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        @if($proyectos->isNotEmpty())
-            <div class="profile-arc">
-                <h1>¡Etapas De Tus Proyectos De Residencias!</h1>
-            </div>
-            @foreach($proyectos as $proyecto)
-                <div class="profile-arc">
-                    <img class="principal" src="{{ $proyecto->imagen ? asset('storage/' . $proyecto->imagen) : 'https://via.placeholder.com/150' }}" alt="Imagen del Proyecto">
-                    <h2>{{ $proyecto->nombre }}</h2>
-                    <p class="el-texto">{{ $proyecto->descripcion }}</p>
-                    <a href="{{ asset('storage/' . $proyecto->archivo_pdf) }}" class="btn btn-success mt-3" download>Descargar Archivo</a>
-                </div>
-            @endforeach
-        @else
-            <div class="profile-arc">
-                <p>No tienes proyectos registrados.</p>
-            </div>
-        @endif
+            <!-- Botones de acciones -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                Modificar Contraseña
+            </button>
+            <a href="#" class="btn btn-secondary">Editar Perfil</a>
+            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+            </form>
+        </div>
     </main>
 
-    <!-- Script para ocultar las alertas automáticamente -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Ocultar mensaje de éxito después de 5 segundos
-            const successAlert = document.getElementById('success-alert');
-            if (successAlert) {
-                setTimeout(() => {
-                    successAlert.style.transition = "opacity 0.5s ease-out";
-                    successAlert.style.opacity = 0;
-                    setTimeout(() => successAlert.remove(), 500); // Remover del DOM después de la transición
-                }, 5000); // 5 segundos
-            }
+    <!-- Modal para modificar contraseña -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changePasswordModalLabel">Modificar Contraseña</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Mensajes de éxito y error -->
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
 
-            // Ocultar mensaje de error después de 5 segundos
-            const errorAlert = document.getElementById('error-alert');
-            if (errorAlert) {
-                setTimeout(() => {
-                    errorAlert.style.transition = "opacity 0.5s ease-out";
-                    errorAlert.style.opacity = 0;
-                    setTimeout(() => errorAlert.remove(), 500); // Remover del DOM después de la transición
-                }, 5000); // 5 segundos
-            }
-        });
-    </script>
+                    @if($errors->any())
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <ul class="mb-0">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+
+                    <!-- Formulario de cambio de contraseña -->
+
+                    <form id="changePasswordForm" method="POST" action="{{ route('changePassword') }}">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="oldPassword" class="form-label">Contraseña antigua</label>
+                            <input type="password" class="form-control" id="oldPassword" name="old_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">Contraseña nueva</label>
+                            <input type="password" class="form-control" id="newPassword" name="new_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirma contraseña</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="new_password_confirmation" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar Contraseña</button>
+                    </form>
+             
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
-
-
-
-

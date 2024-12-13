@@ -15,4 +15,9 @@ class AdminController extends Controller
         // Pasar los usuarios a la vista
         return view('admin.admin', compact('usuarios'));
     }
+
+    public function admincuen()
+    {
+        return view('admin.admincuen');
+    }
 }

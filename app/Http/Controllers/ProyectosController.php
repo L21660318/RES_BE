@@ -63,23 +63,17 @@ class ProyectosController extends Controller
                 'usuario_id' => Auth::id(),
             ]);
 
-            return redirect()->route('proyectos.create')->with('success', 'Proyecto creado correctamente.');
+            // Redirigir con mensaje de éxito
+            return redirect()->route('proyectos.index')->with('success', 'Proyecto creado correctamente.');
         } catch (\Throwable $e) {
             // Registrar el error en los logs
             Log::error('Error en la creación del proyecto: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
             ]);
 
-            // Mostrar errores en el navegador si APP_DEBUG está habilitado
-            if (config('app.debug')) {
-                return response()->json([
-                    'error' => $e->getMessage(),
-                    'trace' => $e->getTrace()
-                ], 500);
-            }
-
-            // Redirigir con un mensaje de error si APP_DEBUG está deshabilitado
+            // Redirigir con mensaje de error
             return redirect()->back()->withErrors(['error' => 'Ocurrió un error al crear el proyecto. Por favor, inténtalo de nuevo.']);
         }
     }
+
 }
